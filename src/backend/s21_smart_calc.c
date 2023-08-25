@@ -11,8 +11,9 @@ static void button_clicked(GtkButton *btn) {
 }
 
 static void button_clicked_7(gpointer ptr) {
-    UI *ui = ptr;
-    printf("%s\n", ui->i_s->string);
+    UI *main_pointer = ptr;
+    printf("%p\n", main_pointer->i_s);
+    //printf("%s\n", ->i_s->string);
 }
 static void add_css_provider() {
   const char cssPath[] = "frontend/style.css";
@@ -61,8 +62,11 @@ static void window_initialize(GtkWidget **win, GApplication **app,
 
 static void app_activate(GApplication *app, gpointer ptr) {
   UI *main_pointer = ptr;
-  printf("A: %s\n", main_pointer->i_s->string);
   main_pointer->grid = gtk_grid_new();
+
+  printf("%p\n", main_pointer);
+  printf("%p\n", main_pointer->i_s);
+  gpointer last = main_pointer->i_s;
 
   add_css_provider();
   ui_initialize(main_pointer->buttons, &main_pointer->label);
@@ -72,25 +76,28 @@ static void app_activate(GApplication *app, gpointer ptr) {
   g_signal_connect(G_OBJECT(main_pointer->buttons[31]), "clicked", G_CALLBACK(button_clicked),
                    &main_pointer->buttons[31]);
   g_signal_connect_swapped(G_OBJECT(main_pointer->buttons[8]), "clicked", G_CALLBACK(button_clicked_7),
-                    main_pointer);
+                    ptr);
   grid_initialize(&main_pointer->grid, main_pointer->buttons, &main_pointer->label);
   window_initialize(&main_pointer->win, &app, &main_pointer->grid);
+  main_pointer->i_s = last;
+  printf("%p\n", main_pointer->i_s);
 }
 
 int main(void) {
   GtkApplication *app;
   int stat;
   UI main = {};
-  main.i_s = malloc(sizeof(infix_string));
-  main.i_s->string[0] = 'q';
-
-  printf("A: %s\n", main.i_s->string);
+  infix_string is = {};
+  main.i_s = &is;
+  gchar *string = "qweqwe";
+  main.i_s->string = string;
+  main.i_s->last_idx = 123;
 
   app =
       gtk_application_new("com.github.SmartCalc", G_APPLICATION_DEFAULT_FLAGS);
   g_signal_connect(app, "activate", G_CALLBACK(app_activate), &main);
   stat = g_application_run(G_APPLICATION(app), 0, NULL);
   g_object_unref(app);
-  free(main.i_s);
+  //free(main.i_s);
   return stat;
 }

@@ -13,7 +13,7 @@ static const char *symbols[SYMBOLS_SIZE] = {
 
 typedef struct {
   GtkWidget *label;
-  gchar string[255];
+  gchar *string;
   gint last_idx;
 } infix_string;
 typedef struct {
