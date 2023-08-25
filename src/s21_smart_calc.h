@@ -12,14 +12,24 @@ static const char *symbols[SYMBOLS_SIZE] = {
 };
 
 typedef struct {
-  char string[255];
-  int last_idx;
+  GtkWidget *label;
+  gchar string[255];
+  gint last_idx;
 } infix_string;
+typedef struct {
+    int a;
+} simple;
+
+typedef struct {
+  GtkWidget *win, *label, *grid;
+  GtkWidget *buttons[32];
+  infix_string *i_s;
+} UI;
 
 static void button_clicked (GtkButton *btn);
 static void add_css_provider();
 static void ui_initialize(GtkWidget **buttons, GtkWidget **label);
 static void grid_initialize(GtkWidget **grid, GtkWidget **buttons, GtkWidget **label);
 static void window_initialize(GtkWidget **win, GApplication **app, GtkWidget **grid);
-static void app_activate (GApplication *app);
+//static void app_activate (GApplication *app);
 int main (void);

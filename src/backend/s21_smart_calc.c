@@ -10,6 +10,10 @@ static void button_clicked(GtkButton *btn) {
     gtk_button_set_label(btn, "Hello.");
 }
 
+static void button_clicked_7(gpointer ptr) {
+    UI *ui = ptr;
+    printf("%s\n", ui->i_s->string);
+}
 static void add_css_provider() {
   const char cssPath[] = "frontend/style.css";
   GtkCssProvider *cssProvider = gtk_css_provider_new();
@@ -55,27 +59,38 @@ static void window_initialize(GtkWidget **win, GApplication **app,
   gtk_window_present(GTK_WINDOW(*win));
 }
 
-static void app_activate(GApplication *app) {
-  GtkWidget *win, *label, *buttons[32];
-  GtkWidget *grid = gtk_grid_new();
+static void app_activate(GApplication *app, gpointer ptr) {
+  UI *main_pointer = ptr;
+  printf("A: %s\n", main_pointer->i_s->string);
+  main_pointer->grid = gtk_grid_new();
 
   add_css_provider();
-  ui_initialize(buttons, &label);
+  ui_initialize(main_pointer->buttons, &main_pointer->label);
 
-  g_signal_connect(G_OBJECT(buttons[31]), "clicked", G_CALLBACK(button_clicked),
-                   &buttons[31]);
-  grid_initialize(&grid, buttons, &label);
-  window_initialize(&win, &app, &grid);
+  g_signal_connect(G_OBJECT(main_pointer->buttons[31]), "clicked", G_CALLBACK(button_clicked),
+                   &main_pointer->buttons[31]);
+  g_signal_connect(G_OBJECT(main_pointer->buttons[31]), "clicked", G_CALLBACK(button_clicked),
+                   &main_pointer->buttons[31]);
+  g_signal_connect_swapped(G_OBJECT(main_pointer->buttons[8]), "clicked", G_CALLBACK(button_clicked_7),
+                    main_pointer);
+  grid_initialize(&main_pointer->grid, main_pointer->buttons, &main_pointer->label);
+  window_initialize(&main_pointer->win, &app, &main_pointer->grid);
 }
 
 int main(void) {
   GtkApplication *app;
   int stat;
+  UI main = {};
+  main.i_s = malloc(sizeof(infix_string));
+  main.i_s->string[0] = 'q';
+
+  printf("A: %s\n", main.i_s->string);
 
   app =
       gtk_application_new("com.github.SmartCalc", G_APPLICATION_DEFAULT_FLAGS);
-  g_signal_connect(app, "activate", G_CALLBACK(app_activate), NULL);
+  g_signal_connect(app, "activate", G_CALLBACK(app_activate), &main);
   stat = g_application_run(G_APPLICATION(app), 0, NULL);
   g_object_unref(app);
+  free(main.i_s);
   return stat;
 }
