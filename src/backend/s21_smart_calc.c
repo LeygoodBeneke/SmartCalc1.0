@@ -1,20 +1,14 @@
 #include "../s21_smart_calc.h"
 
-static void button_clicked(GtkButton *btn) {
-  const char *s;
+const char *symbols[SYMBOLS_SIZE] = {
+  "SIN", "ASIN", "C", "()", "+/-", "/",
+  "COS", "ACOS", "7", "8", "9", "*",
+  "TAN", "ATAN", "4", "5", "6", "-",
+  "LN",  "LOG",  "1", "2", "3", "+",
+  "POW", "SQRT", "X", ".", "0", "%",
+  "del", "GRAPH", "=",
+};
 
-  s = gtk_button_get_label(btn);
-  if (g_strcmp0(s, "Hello.") == 0)
-    gtk_button_set_label(btn, "Good-bye.");
-  else
-    gtk_button_set_label(btn, "Hello.");
-}
-
-static void button_clicked_7(gpointer ptr) {
-    UI *main_pointer = ptr;
-    printf("%p\n", main_pointer->i_s);
-    //printf("%s\n", ->i_s->string);
-}
 static void add_css_provider() {
   const char cssPath[] = "frontend/style.css";
   GtkCssProvider *cssProvider = gtk_css_provider_new();
@@ -29,10 +23,10 @@ static void ui_initialize(GtkWidget **buttons, GtkWidget **label) {
     buttons[i] = gtk_button_new_with_label(symbols[i]);
     gtk_widget_add_css_class(buttons[i], "circular");
   }
-  *label = gtk_label_new("1234");
+  *label = gtk_label_new("0");
   gtk_widget_add_css_class(*label, "label");
-  gtk_label_set_xalign(GTK_LABEL(*label), .97);
-  gtk_label_set_yalign(GTK_LABEL(*label), .97);
+  gtk_label_set_xalign(GTK_LABEL(*label), 1.0);
+  gtk_label_set_yalign(GTK_LABEL(*label), 1.0);
 }
 
 static void grid_initialize(GtkWidget **grid, GtkWidget **buttons,
@@ -65,33 +59,23 @@ static void app_activate(GApplication *app, gpointer ptr) {
   main_pointer->grid = gtk_grid_new();
 
   printf("%p\n", main_pointer);
-  printf("%p\n", main_pointer->i_s);
-  gpointer last = main_pointer->i_s;
+  gpointer last = main_pointer->elements;
 
   add_css_provider();
   ui_initialize(main_pointer->buttons, &main_pointer->label);
+  signal_connection(main_pointer->buttons, ptr);
 
-  g_signal_connect(G_OBJECT(main_pointer->buttons[31]), "clicked", G_CALLBACK(button_clicked),
-                   &main_pointer->buttons[31]);
-  g_signal_connect(G_OBJECT(main_pointer->buttons[31]), "clicked", G_CALLBACK(button_clicked),
-                   &main_pointer->buttons[31]);
-  g_signal_connect_swapped(G_OBJECT(main_pointer->buttons[8]), "clicked", G_CALLBACK(button_clicked_7),
-                    ptr);
   grid_initialize(&main_pointer->grid, main_pointer->buttons, &main_pointer->label);
   window_initialize(&main_pointer->win, &app, &main_pointer->grid);
-  main_pointer->i_s = last;
-  printf("%p\n", main_pointer->i_s);
+  main_pointer->elements = last;
 }
 
 int main(void) {
   GtkApplication *app;
   int stat;
   UI main = {};
-  infix_string is = {};
-  main.i_s = &is;
-  gchar *string = "qweqwe";
-  main.i_s->string = string;
-  main.i_s->last_idx = 123;
+  main.elements = calloc(255, sizeof(element));
+  main.elements[0].is_number = 1;
 
   app =
       gtk_application_new("com.github.SmartCalc", G_APPLICATION_DEFAULT_FLAGS);
@@ -99,5 +83,10 @@ int main(void) {
   stat = g_application_run(G_APPLICATION(app), 0, NULL);
   g_object_unref(app);
   //free(main.i_s);
+  //
+  for (int i = 0; i < 255; i++) {
+      free(main.elements[i].str);
+  }
+  free(main.elements);
   return stat;
 }

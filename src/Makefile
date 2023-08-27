@@ -1,11 +1,6 @@
-FLAGS=-Wall -Werror -Wextra -std=c11 `pkg-config --cflags gtk4` `pkg-config --libs gtk4`
+FLAGS=-Wall -Werror -Wextra -std=c11 `pkg-config --cflags gtk4` `pkg-config --libs gtk4` -lm
 COVERAGE=
 UNAME:=$(shell uname -s)
-GTK_FLAGS=-I/usr/include/gtk-4.0 -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/sysprof-4 -I/usr/include/harfbuzz -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/fribidi -I/usr/include/cairo -I/usr/include/pixman-1 -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/graphene-1.0 -I/usr/lib/graphene-1.0/include -mfpmath=sse -msse -msse2 -pthread
-GTK_LIBS=-lgtk-4 -lpangocairo-1.0 -lpango-1.0 -lharfbuzz -lgdk_pixbuf-2.0 -lcairo-gobject -lcairo -lgraphene-1.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0
-
-FF=pkg-config --cflags gtk4
-FL=pkg-config --libs gtk4
 
 ifeq ($(UNAME),Linux)
 	LDFLAGS=-lcheck -lm -lrt -lpthread -lsubunit
@@ -18,7 +13,7 @@ endif
 
 all: clean s21_smart_calc.a
 deafult: all
-s21_smart_calc.o: */*.c
+s21_smart_calc.o: */*.c backend/*/*.c
 	gcc $(FLAGS) -c $^
 s21_smart_calc.a: s21_smart_calc.o
 	gcc $(FLAGS) -o SmartCalc *.o
