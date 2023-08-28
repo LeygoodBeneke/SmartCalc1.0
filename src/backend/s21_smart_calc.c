@@ -75,7 +75,6 @@ int main(void) {
   int stat;
   UI main = {};
   main.elements = calloc(255, sizeof(element));
-  main.elements[0].is_number = 1;
 
   app =
       gtk_application_new("com.github.SmartCalc", G_APPLICATION_DEFAULT_FLAGS);

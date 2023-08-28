@@ -57,4 +57,6 @@ void signal_connection(GtkWidget **buttons, gpointer ptr) {
           G_CALLBACK(button_clicked_sqrt), ptr);
   g_signal_connect_swapped(G_OBJECT(buttons[24]), "clicked",
           G_CALLBACK(button_clicked_pow), ptr);
+  g_signal_connect_swapped(G_OBJECT(buttons[32]), "clicked",
+          G_CALLBACK(button_clicked_enter), ptr);
 }
