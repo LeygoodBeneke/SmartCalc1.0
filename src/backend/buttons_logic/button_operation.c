@@ -65,49 +65,53 @@ void button_clicked_sqrt(gpointer ptr) {
 
 void button_clicked_bin_op(gpointer ptr, char *op, int symbol, int priority) {
   UI *main_pointer = ptr;
-  element *elements = main_pointer->elements;
-  int *last_idx = &main_pointer->last_element_idx;
+  element *last = get_last_element(main_pointer->elements, main_pointer->elements_size);
 
-  if ((elements[*last_idx].is_number == 1 ||
-       elements[*last_idx].symbol == CLOSE_SCOPE)) {
-    main_pointer->last_element_idx++;
-    elements[*last_idx].is_number = 0;
+  if (last != NULL) {
+      if (last->is_number == 1 || last->symbol == CLOSE_SCOPE) {
+          element new = {.str = calloc(strlen(op), sizeof(char)),
+                         .number = 0,
+                         .is_number = 0,
+                         .is_unary = 0};
+          add_element(main_pointer->elements, &main_pointer->elements_size, new);
+      }
   }
+  last = get_last_element(main_pointer->elements, main_pointer->elements_size);
 
-  if (elements[*last_idx].is_number == 0 &&
-      elements[*last_idx].symbol != OPEN_SCOPE && *last_idx) {
-    if (elements[*last_idx].str == NULL) {
-      elements[*last_idx].str = calloc(strlen(op), sizeof(char));
-    }
+  if (last != NULL) {
+      if (last->symbol != OPEN_SCOPE) {
+          if (!last->str) last = calloc(strlen(op), sizeof(char));
 
-    strcpy(elements[*last_idx].str, op);
-    elements[*last_idx].symbol = symbol;
-    elements[*last_idx].priority = priority;
-    elements[*last_idx].is_unary = 0;
+          strcpy(last->str, op);
+          last->symbol = symbol;
+          last->priority = priority;
+          last->is_unary = 0;
+      }
   }
-
-  print_string(elements, *last_idx, GTK_LABEL(main_pointer->label));
+  print_string_new(main_pointer->elements, main_pointer->elements_size, GTK_LABEL(main_pointer->label));
 }
 
 void button_clicked_unary_op(gpointer ptr, char *op, int symbol, int priority) {
   UI *main_pointer = ptr;
-  element *elements = main_pointer->elements;
-  int *last_idx = &main_pointer->last_element_idx;
+  element *last = get_last_element(main_pointer->elements, main_pointer->elements_size);
+  
+  int tmp = last == NULL;
+  if (!tmp) tmp = last->is_number == 0 && last->symbol != CLOSE_SCOPE;
+  if (tmp) {
+      element new = {.str = calloc(strlen(op), sizeof(char)),
+                     .number = 0,
+                     .is_number = 0,
+                     .is_unary = 1};
+      add_element(main_pointer->elements, &main_pointer->elements_size, new);
+      last = get_last_element(main_pointer->elements, main_pointer->elements_size);
 
-  if (!(*last_idx) || (elements[*last_idx].is_number == 0 &&
-                       elements[*last_idx].symbol != CLOSE_SCOPE)) {
-    if (*last_idx) main_pointer->last_element_idx++;
-    if (elements[*last_idx].str == NULL) {
-      elements[*last_idx].str = calloc(strlen(op), sizeof(char));
-    }
-    strcpy(elements[*last_idx].str, op);
-    printf("HAHA %s\n", elements[*last_idx].str);
-    elements[*last_idx].symbol = symbol;
-    elements[*last_idx].is_number = 0;
-    elements[*last_idx].priority = priority;
-    elements[*last_idx].is_unary = 1;
-    button_clicked_scope(main_pointer);
+      if (!last->str) last = calloc(strlen(op), sizeof(char));
+
+      strcpy(last->str, op);
+      last->symbol = symbol;
+      last->priority = priority;
+      last->is_unary = 1;
+      button_clicked_scope(main_pointer);
   }
-
-  print_string(elements, *last_idx, GTK_LABEL(main_pointer->label));
+  print_string_new(main_pointer->elements, main_pointer->elements_size, GTK_LABEL(main_pointer->label));
 }

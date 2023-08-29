@@ -8,16 +8,16 @@
 #define MULT         3
 #define DIV          4
 #define MOD          5
-#define INVERSE      6
-#define SIN          7
-#define ASIN         8
-#define COS          9
-#define ACOS         10
-#define TAN          11
-#define ATAN         12
-#define LOG          13
-#define LN           14
-#define POWER        15
+#define POWER        6
+#define INVERSE      7
+#define SIN          8
+#define ASIN         9
+#define COS          10
+#define ACOS         11
+#define TAN          12
+#define ATAN         13
+#define LOG          14
+#define LN           15
 #define SQRT         16
 #define OPEN_SCOPE   17
 #define CLOSE_SCOPE  18
@@ -58,6 +58,7 @@ typedef struct {
   GtkWidget *buttons[SYMBOLS_SIZE];
   element *elements;
   gint last_element_idx;
+  gint elements_size;
   gint open_scopes_counter;
 } UI;
 
@@ -75,7 +76,7 @@ void button_clicked_9(gpointer ptr);
 void button_clicked_plus(gpointer ptr);
 void button_clicked_dot(gpointer ptr);
 void button_clicked_c(gpointer ptr);
-void print_string(element *elements, gint last_idx, GtkLabel *label);
+void print_string_new(element *elements, gint count, GtkLabel *label);
 
 void button_clicked_minus(gpointer ptr);
 void button_clicked_mult(gpointer ptr);
@@ -96,3 +97,7 @@ void button_clicked_enter(gpointer ptr);
 
 
 void signal_connection(GtkWidget **buttons, gpointer ptr);
+void add_element(element *elements, gint *size, element addition);
+
+element *get_last_element(element *elements, gint size);
+void remove_last_element(element *elements, gint *size);

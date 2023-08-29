@@ -1,4 +1,5 @@
 #include "../../s21_smart_calc.h"
+void morph_numeric_string (char *s);
 
 void button_clicked_digit(gpointer ptr, gint digit);
 
@@ -24,40 +25,51 @@ void button_clicked_9(gpointer ptr) { button_clicked_digit(ptr, 9); }
 
 void button_clicked_digit(gpointer ptr, gint digit) {
   UI *main_pointer = ptr;
-  gchar char_digit = '0' + digit;
-  char digit_string[1];
   long double double_digit = digit;
-  digit_string[0] = char_digit;
 
-  if (main_pointer->elements[main_pointer->last_element_idx].is_number == 0) {
-    if (main_pointer->last_element_idx) main_pointer->last_element_idx++;
-    main_pointer->elements[main_pointer->last_element_idx].is_number = 1;
+  element *elements = main_pointer->elements;
+  gint *size_of_elements = &main_pointer->elements_size;
+
+
+  element *last = get_last_element(elements, *size_of_elements);
+  if (last == NULL || last->is_number == 0) {
+      element new = { .is_number = 1, .number = 0 };
+      add_element(elements, &main_pointer->elements_size, new);
   }
 
-  if (main_pointer->elements[main_pointer->last_element_idx].str == NULL) {
-    main_pointer->elements[main_pointer->last_element_idx].str =
-        calloc(30, sizeof(char));
+  last = get_last_element(elements, *size_of_elements);
+  if (last->str == NULL) {
+      last->str = calloc(30, sizeof(char));
   }
 
-  long double prev =
-      main_pointer->elements[main_pointer->last_element_idx].number;
-  if (!main_pointer->elements[main_pointer->last_element_idx].is_dot_used) {
-    main_pointer->elements[main_pointer->last_element_idx].number *= 10.0;
-  } else {
-    int power =
-        main_pointer->elements[main_pointer->last_element_idx].is_dot_used * -1;
-    double_digit = pow(10, power) * double_digit;
-    main_pointer->elements[main_pointer->last_element_idx].is_dot_used++;
+  if (!last->is_dot_used) last->number *= 10.0;
+  else {
+      int power = last->is_dot_used * -1;
+      double_digit = pow(10, power) * double_digit;
+      last->is_dot_used++;
   }
-  main_pointer->elements[main_pointer->last_element_idx].number += double_digit;
-  prev -= main_pointer->elements[main_pointer->last_element_idx].number;
+  last->number += double_digit;
+  
+  char buff[30];
+  sprintf(buff, "%.10Lf", last->number);
+  morph_numeric_string(buff);
+  strcpy(last->str, buff);
 
-  if (prev != 0.0f) {
-    strcat(main_pointer->elements[main_pointer->last_element_idx].str,
-           digit_string);
-    print_string(main_pointer->elements, main_pointer->last_element_idx,
-                 GTK_LABEL(main_pointer->label));
-  }
-  printf("NUMBER: %Lf\n",
-         main_pointer->elements[main_pointer->last_element_idx].number);
+  print_string_new(main_pointer->elements, *size_of_elements, GTK_LABEL(main_pointer->label));
 }
+
+
+void morph_numeric_string (char *s) {
+    char *p;
+    p = strchr (s,'.');
+    if (p != NULL) {
+        while (s[strlen(s)-1] == '0') {
+            s[strlen(s)-1] = '\0';
+        }
+
+        if (s[strlen(s)-1] == '.') {
+            s[strlen(s)-1] = '\0';
+        }
+    }
+}
+

@@ -3,11 +3,12 @@
 void button_clicked_dot(gpointer ptr) {
   UI *main_pointer = ptr;
 
-  if (main_pointer->elements[main_pointer->last_element_idx].is_number == 1 &&
-      main_pointer->elements[main_pointer->last_element_idx].is_dot_used == 0) {
-    main_pointer->elements[main_pointer->last_element_idx].is_dot_used = 1;
-    strcat(main_pointer->elements[main_pointer->last_element_idx].str, ".");
+  element *elem = get_last_element(main_pointer->elements, main_pointer->elements_size);
+
+  if (elem->is_number == 1 && elem->is_dot_used == 0) {
+    elem->is_dot_used = 1;
+    strcat(elem->str, ".");
   }
-  print_string(main_pointer->elements, main_pointer->last_element_idx,
+  print_string_new(main_pointer->elements, main_pointer->elements_size,
                GTK_LABEL(main_pointer->label));
 }

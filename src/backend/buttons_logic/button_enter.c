@@ -12,7 +12,6 @@ void process_unary_op(long double *numbers_stack, gint *number_stack_len,
 void button_clicked_enter(gpointer ptr) {
   UI *main_pointer = ptr;
   element *elements = main_pointer->elements;
-  gint count_of_elements = main_pointer->last_element_idx;
 
   long double numbers_stack[255] = {};
   gint number_stack_len = 0;
@@ -20,7 +19,7 @@ void button_clicked_enter(gpointer ptr) {
   element operations_stack[255] = {};
   gint operations_stack_len = 0;
 
-  for (gint i = 0; i <= count_of_elements; i++) {
+  for (gint i = 0; i < main_pointer->elements_size; i++) {
     printf("----------------------\n");
     printf("ELEMENT\n");
     printf("SYMBOL: %d\n", elements[i].symbol);
@@ -66,7 +65,9 @@ void button_clicked_enter(gpointer ptr) {
       }
     }
   }
-  printf("%d\n", operations_stack[operations_stack_len - 1].symbol);
+  for (int i = 0; i < operations_stack_len; i++) {
+      printf("%d\n", operations_stack[i].symbol);
+  }
   gint a = operations_stack[operations_stack_len - 1].symbol == 0; //нет
   while (operations_stack_len > a) {
     element el = stack_ops_pop(operations_stack, &operations_stack_len);
