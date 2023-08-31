@@ -45,28 +45,25 @@ static void grid_initialize(GtkWidget *grid, GtkWidget **buttons,
   gtk_grid_set_row_spacing(GTK_GRID(grid), 20);
 }
 
-static void window_initialize(GtkWidget **win, GApplication **app,
-                              GtkWidget **grid) {
-  *win = gtk_application_window_new(GTK_APPLICATION(*app));
-  gtk_window_set_title(GTK_WINDOW(*win), "SmartCalc");
-  gtk_window_set_default_size(GTK_WINDOW(*win), 1000, 600);
-  gtk_window_set_child(GTK_WINDOW(*win), *grid);
-  gtk_window_present(GTK_WINDOW(*win));
+static void window_initialize(GtkWidget *win, GApplication *app,
+                              GtkWidget *grid) {
+  win = gtk_application_window_new(GTK_APPLICATION(app));
+  gtk_window_set_title(GTK_WINDOW(win), "SmartCalc");
+  gtk_window_set_default_size(GTK_WINDOW(win), 1000, 600);
+  gtk_window_set_child(GTK_WINDOW(win), grid);
+  gtk_window_present(GTK_WINDOW(win));
 }
 
 static void app_activate(GApplication *app, gpointer ptr) {
   UI *main_pointer = ptr;
   main_pointer->grid = gtk_grid_new();
 
-  gpointer last = main_pointer->elements;
-
   add_css_provider();
   ui_initialize(main_pointer->buttons, &main_pointer->label);
   signal_connection(main_pointer->buttons, ptr);
 
   grid_initialize(main_pointer->grid, main_pointer->buttons, main_pointer->label);
-  window_initialize(&main_pointer->win, &app, &main_pointer->grid);
-  main_pointer->elements = last;
+  window_initialize(main_pointer->win, app, main_pointer->grid);
 }
 
 int main(void) {
@@ -80,11 +77,6 @@ int main(void) {
   g_signal_connect(app, "activate", G_CALLBACK(app_activate), &main);
   stat = g_application_run(G_APPLICATION(app), 0, NULL);
   g_object_unref(app);
-  //free(main.i_s);
-  //
-//  for (int i = 0; i < 255; i++) {
-//      free(main.elements[i].str);
-//  }
   free(main.elements);
   return stat;
 }

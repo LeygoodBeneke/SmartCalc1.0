@@ -8,7 +8,7 @@ void button_clicked_x(gpointer ptr) {
 
   element *last = get_last_element(elements, *size_of_elements);
   if (last == NULL || last->is_number == 0) {
-    element new = {.is_number = 0, .number = 0, .str = "x", .symbol = X};
+    element new = {.is_number = 1, .number = 0, .str = "x", .symbol = X};
     add_element(elements, &main_pointer->elements_size, new);
   }
 

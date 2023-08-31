@@ -30,7 +30,7 @@ void button_clicked_digit(gpointer ptr, gint digit) {
   gint *size_of_elements = &main_pointer->elements_size;
 
   element *last = get_last_element(elements, *size_of_elements);
-  if (last == NULL || last->is_number == 0) {
+  if (last == NULL || (last->is_number == 0 && last->symbol)) {
     element new = {.is_number = 1, .number = 0};
     add_element(elements, &main_pointer->elements_size, new);
   }

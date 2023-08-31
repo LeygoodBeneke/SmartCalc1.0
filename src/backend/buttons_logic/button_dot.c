@@ -6,7 +6,7 @@ void button_clicked_dot(gpointer ptr) {
   element *elem =
       get_last_element(main_pointer->elements, main_pointer->elements_size);
 
-  if (elem->is_number == 1 && elem->is_dot_used == 0) {
+  if (elem->is_number == 1 && elem->is_dot_used == 0 && elem->symbol) {
     elem->is_dot_used = 1;
     strcat(elem->str, ".");
   }
