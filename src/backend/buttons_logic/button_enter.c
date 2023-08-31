@@ -101,7 +101,7 @@ long double stack_nums_pop(long double *stack, gint *count) {
 
 void stack_ops_push(element *stack, gint *count, element value) {
   stack[*count].priority = value.priority;
-  stack[*count].str = value.str;
+  strcpy(stack[*count].str, value.str);
   stack[*count].symbol = value.symbol;
   stack[*count].is_unary = value.is_unary;
   (*count)++;
@@ -111,12 +111,12 @@ element stack_ops_pop(element *stack, gint *count) {
   element el = {};
   if ((gint)(*count) > 0) {
     el.priority = stack[*count - 1].priority;
-    el.str = calloc(10, sizeof(char));
     strcpy(el.str, stack[*count - 1].str);
     el.symbol = stack[*count - 1].symbol;
     el.is_unary = stack[*count - 1].is_unary;
     stack[*count - 1].priority = 0;
-    stack[*count - 1].str = NULL;
+
+    strcpy(stack[*count - 1].str, "\0");
     stack[*count - 1].symbol = 0;
     (*count)--;
   }

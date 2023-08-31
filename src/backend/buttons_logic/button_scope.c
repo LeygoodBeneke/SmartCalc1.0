@@ -9,7 +9,7 @@ void button_clicked_scope(gpointer ptr) {
   if (last == NULL || (last->is_number == 0 && last->symbol != CLOSE_SCOPE)) {
     element addition = {.is_unary = 1,
                         .priority = PRIORITY_OPEN_SCOPE,
-                        .str = calloc(1, sizeof(char)),
+                        //.str = calloc(1, sizeof(char)),
                         .symbol = OPEN_SCOPE};
     strcpy(addition.str, "(");
     add_element(main_pointer->elements, &main_pointer->elements_size, addition);
@@ -18,7 +18,7 @@ void button_clicked_scope(gpointer ptr) {
     if (main_pointer->open_scopes_counter && last->symbol != OPEN_SCOPE) {
       element addition = {.is_unary = 1,
                           .priority = PRIORITY_CLOSE_SCOPE,
-                          .str = calloc(1, sizeof(char)),
+                          //.str = calloc(1, sizeof(char)),
                           .symbol = CLOSE_SCOPE};
       strcpy(addition.str, ")");
       add_element(main_pointer->elements, &main_pointer->elements_size,

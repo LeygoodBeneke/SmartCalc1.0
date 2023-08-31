@@ -36,9 +36,9 @@ void button_clicked_digit(gpointer ptr, gint digit) {
   }
 
   last = get_last_element(elements, *size_of_elements);
-  if (last->str == NULL) {
-    last->str = calloc(30, sizeof(char));
-  }
+  //  if (last->str == NULL) {
+  //    last->str = calloc(30, sizeof(char));
+  //  }
 
   if (!last->is_dot_used)
     last->number *= 10.0;

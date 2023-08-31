@@ -70,7 +70,7 @@ void button_clicked_bin_op(gpointer ptr, char *op, int symbol, int priority) {
 
   if (last != NULL) {
     if (last->is_number == 1 || last->symbol == CLOSE_SCOPE) {
-      element new = {.str = calloc(strlen(op), sizeof(char)),
+      element new = {// .str = calloc(strlen(op), sizeof(char)),
                      .number = 0,
                      .is_number = 0,
                      .is_unary = 0};
@@ -81,8 +81,6 @@ void button_clicked_bin_op(gpointer ptr, char *op, int symbol, int priority) {
 
   if (last != NULL) {
     if (last->symbol != OPEN_SCOPE) {
-      if (!last->str) last = calloc(strlen(op), sizeof(char));
-
       strcpy(last->str, op);
       last->symbol = symbol;
       last->priority = priority;
@@ -101,15 +99,13 @@ void button_clicked_unary_op(gpointer ptr, char *op, int symbol, int priority) {
   int tmp = last == NULL;
   if (!tmp) tmp = last->is_number == 0 && last->symbol != CLOSE_SCOPE;
   if (tmp) {
-    element new = {.str = calloc(strlen(op), sizeof(char)),
+    element new = {//.str = calloc(strlen(op), sizeof(char)),
                    .number = 0,
                    .is_number = 0,
                    .is_unary = 1};
     add_element(main_pointer->elements, &main_pointer->elements_size, new);
     last =
         get_last_element(main_pointer->elements, main_pointer->elements_size);
-
-    if (!last->str) last = calloc(strlen(op), sizeof(char));
 
     strcpy(last->str, op);
     last->symbol = symbol;

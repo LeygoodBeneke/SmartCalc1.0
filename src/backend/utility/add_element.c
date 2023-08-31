@@ -1,7 +1,7 @@
 #include "../../s21_smart_calc.h"
 
 void add_element(element *elements, gint *size, element addition) {
-  elements[*size].str = addition.str;
+  strcpy(elements[*size].str, addition.str);
   elements[*size].number = addition.number;
   elements[*size].symbol = addition.symbol;
   elements[*size].is_unary = addition.is_unary;
@@ -19,7 +19,7 @@ element *get_last_element(element *elements, gint size) {
 
 void remove_last_element(element *elements, gint *size) {
   if (*size > 0) {
-    if (elements[*size - 1].str) free(elements[*size - 1].str);
+    // if (strlen(elements[*size - 1].str)) free(elements[*size - 1].str);
     elements[*size - 1].number = 0;
     elements[*size - 1].symbol = 0;
     elements[*size - 1].is_unary = 0;

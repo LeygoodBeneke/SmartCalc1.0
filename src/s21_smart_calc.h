@@ -21,6 +21,7 @@
 #define SQRT         16
 #define OPEN_SCOPE   17
 #define CLOSE_SCOPE  18
+#define X            19
 
 #define PRIORITY_PLUS         1
 #define PRIORITY_MINUS        1
@@ -50,7 +51,7 @@ typedef struct {
   gboolean is_unary;
   gint symbol;
   long double number;
-  char *str;
+  char str[255];
 } element;
 
 typedef struct {
@@ -97,6 +98,7 @@ void button_clicked_sqrt(gpointer ptr);
 void button_clicked_pow(gpointer ptr);
 void button_clicked_enter(gpointer ptr);
 void button_clicked_graph(gpointer ptr);
+void button_clicked_x(gpointer ptr);
 
 
 void signal_connection(GtkWidget **buttons, gpointer ptr);

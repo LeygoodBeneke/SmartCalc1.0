@@ -15,7 +15,7 @@ void button_clicked_c(gpointer ptr) {
         get_last_element(main_pointer->elements, main_pointer->elements_size);
 
     if (last) {
-      if (last->symbol >= INVERSE && last->symbol < OPEN_SCOPE) {
+      if (last->is_unary) {
         remove_last_element(main_pointer->elements,
                             &main_pointer->elements_size);
       }
