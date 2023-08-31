@@ -55,11 +55,13 @@ typedef struct {
 
 typedef struct {
   GtkWidget *win, *label, *grid;
+  GtkWidget *drawning_window, *drawning_area, *drawning_grid;
   GtkWidget *buttons[SYMBOLS_SIZE];
   element *elements;
   gint last_element_idx;
   gint elements_size;
   gint open_scopes_counter;
+  double cell_size;
 } UI;
 
 int main (void);
@@ -94,6 +96,7 @@ void button_clicked_log(gpointer ptr);
 void button_clicked_sqrt(gpointer ptr);
 void button_clicked_pow(gpointer ptr);
 void button_clicked_enter(gpointer ptr);
+void button_clicked_graph(gpointer ptr);
 
 
 void signal_connection(GtkWidget **buttons, gpointer ptr);
@@ -101,3 +104,9 @@ void add_element(element *elements, gint *size, element addition);
 
 element *get_last_element(element *elements, gint size);
 void remove_last_element(element *elements, gint *size);
+void morph_numeric_string (char *s);
+void draw_function (GtkDrawingArea *area,
+               cairo_t        *cr,
+               int             width,
+               int             height,
+               gpointer        data);

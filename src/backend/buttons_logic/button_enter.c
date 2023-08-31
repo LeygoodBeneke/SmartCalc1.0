@@ -31,11 +31,11 @@ void button_clicked_enter(gpointer ptr) {
     if (elements[i].is_number == 1) {
       stack_nums_push(numbers_stack, &number_stack_len, elements[i].number);
     } else {
-      // если приоритет нынешнего ниже предыдущего -> операция
-      // в противном случае загоняем в стэк
       gboolean is_push = !operations_stack_len;
       if (!is_push)
-        is_push = elements[i].priority >= stack_ops_get_last(operations_stack, operations_stack_len)->priority;
+        is_push = elements[i].priority >=
+                  stack_ops_get_last(operations_stack, operations_stack_len)
+                      ->priority;
       if (!is_push)
         is_push =
             operations_stack[operations_stack_len - 1].symbol == OPEN_SCOPE;
@@ -54,16 +54,16 @@ void button_clicked_enter(gpointer ptr) {
           stack_ops_push(operations_stack, &operations_stack_len, elements[i]);
         }
       } else {
-        element *last = stack_ops_get_last(operations_stack, operations_stack_len);
+        element *last =
+            stack_ops_get_last(operations_stack, operations_stack_len);
         while (last->priority > elements[i].priority) {
-
-            if (last->is_unary == 0) {
-              process_binary_op(numbers_stack, &number_stack_len, last->symbol);
-            } else {
-              process_unary_op(numbers_stack, &number_stack_len, last->symbol);
-            }
-            stack_ops_pop(operations_stack, &operations_stack_len);
-            last = stack_ops_get_last(operations_stack, operations_stack_len);
+          if (last->is_unary == 0) {
+            process_binary_op(numbers_stack, &number_stack_len, last->symbol);
+          } else {
+            process_unary_op(numbers_stack, &number_stack_len, last->symbol);
+          }
+          stack_ops_pop(operations_stack, &operations_stack_len);
+          last = stack_ops_get_last(operations_stack, operations_stack_len);
         }
         stack_ops_push(operations_stack, &operations_stack_len, elements[i]);
       }
@@ -79,10 +79,9 @@ void button_clicked_enter(gpointer ptr) {
   }
 
   char buff[255];
-  sprintf(buff, "%Lf", numbers_stack[0]);
-
-  printf("ANSWER: %Lf\n", numbers_stack[0]);
-    gtk_label_set_text(GTK_LABEL(main_pointer->label), (const char *)buff);
+  sprintf(buff, "%.10Lf", numbers_stack[0]);
+  morph_numeric_string(buff);
+  gtk_label_set_text(GTK_LABEL(main_pointer->label), (const char *)buff);
 }
 
 void stack_nums_push(long double *stack, gint *count, long double value) {
@@ -157,7 +156,8 @@ void process_unary_op(long double *numbers_stack, gint *number_stack_len,
     value = stack_nums_pop(numbers_stack, number_stack_len);
 
   if (symbol == SIN)
-    stack_nums_push(numbers_stack, number_stack_len, sinl(value * G_PI / 180.0));
+    stack_nums_push(numbers_stack, number_stack_len,
+                    sinl(value * G_PI / 180.0));
   if (symbol == ASIN)
     stack_nums_push(numbers_stack, number_stack_len, asinl(value));
   if (symbol == COS)

@@ -1,5 +1,4 @@
 #include "../../s21_smart_calc.h"
-void morph_numeric_string (char *s);
 
 void button_clicked_digit(gpointer ptr, gint digit);
 
@@ -30,46 +29,45 @@ void button_clicked_digit(gpointer ptr, gint digit) {
   element *elements = main_pointer->elements;
   gint *size_of_elements = &main_pointer->elements_size;
 
-
   element *last = get_last_element(elements, *size_of_elements);
   if (last == NULL || last->is_number == 0) {
-      element new = { .is_number = 1, .number = 0 };
-      add_element(elements, &main_pointer->elements_size, new);
+    element new = {.is_number = 1, .number = 0};
+    add_element(elements, &main_pointer->elements_size, new);
   }
 
   last = get_last_element(elements, *size_of_elements);
   if (last->str == NULL) {
-      last->str = calloc(30, sizeof(char));
+    last->str = calloc(30, sizeof(char));
   }
 
-  if (!last->is_dot_used) last->number *= 10.0;
+  if (!last->is_dot_used)
+    last->number *= 10.0;
   else {
-      int power = last->is_dot_used * -1;
-      double_digit = pow(10, power) * double_digit;
-      last->is_dot_used++;
+    int power = last->is_dot_used * -1;
+    double_digit = pow(10, power) * double_digit;
+    last->is_dot_used++;
   }
   last->number += double_digit;
-  
+
   char buff[30];
   sprintf(buff, "%.10Lf", last->number);
   morph_numeric_string(buff);
   strcpy(last->str, buff);
 
-  print_string_new(main_pointer->elements, *size_of_elements, GTK_LABEL(main_pointer->label));
+  print_string_new(main_pointer->elements, *size_of_elements,
+                   GTK_LABEL(main_pointer->label));
 }
 
-
-void morph_numeric_string (char *s) {
-    char *p;
-    p = strchr (s,'.');
-    if (p != NULL) {
-        while (s[strlen(s)-1] == '0') {
-            s[strlen(s)-1] = '\0';
-        }
-
-        if (s[strlen(s)-1] == '.') {
-            s[strlen(s)-1] = '\0';
-        }
+void morph_numeric_string(char *s) {
+  char *p;
+  p = strchr(s, '.');
+  if (p != NULL) {
+    while (s[strlen(s) - 1] == '0') {
+      s[strlen(s) - 1] = '\0';
     }
-}
 
+    if (s[strlen(s) - 1] == '.') {
+      s[strlen(s) - 1] = '\0';
+    }
+  }
+}
