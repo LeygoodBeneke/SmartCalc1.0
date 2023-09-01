@@ -21,12 +21,12 @@ void button_clicked_enter(gpointer ptr) {
   gint operations_stack_len = 0;
 
   for (gint i = 0; i < main_pointer->elements_size; i++) {
-    printf("----------------------\n");
-    printf("ELEMENT\n");
-    printf("SYMBOL: %d\n", elements[i].symbol);
-    printf("IS UNARY: %d\n", elements[i].is_unary);
-    printf("PRIORITY: %d\n", elements[i].priority);
-    printf("NUMBER?: %d\n", elements[i].is_number);
+    //    printf("----------------------\n");
+    //    printf("ELEMENT\n");
+    //    printf("SYMBOL: %d\n", elements[i].symbol);
+    //    printf("IS UNARY: %d\n", elements[i].is_unary);
+    //    printf("PRIORITY: %d\n", elements[i].priority);
+    //    printf("NUMBER?: %d\n", elements[i].is_number);
 
     if (elements[i].is_number == 1) {
       stack_nums_push(numbers_stack, &number_stack_len, elements[i].number);
@@ -82,6 +82,7 @@ void button_clicked_enter(gpointer ptr) {
   sprintf(buff, "%.10Lf", numbers_stack[0]);
   morph_numeric_string(buff);
   gtk_label_set_text(GTK_LABEL(main_pointer->label), (const char *)buff);
+  main_pointer->result = numbers_stack[0];
 }
 
 void stack_nums_push(long double *stack, gint *count, long double value) {

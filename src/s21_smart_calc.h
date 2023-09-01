@@ -63,6 +63,7 @@ typedef struct {
   gint elements_size;
   gint open_scopes_counter;
   double cell_size;
+  double result;
 } UI;
 
 int main (void);

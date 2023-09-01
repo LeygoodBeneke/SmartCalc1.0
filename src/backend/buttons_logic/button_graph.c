@@ -6,6 +6,7 @@ typedef struct {
 } point;
 
 point translate_num_to_coord(point p, int width, int height, double cell_size);
+void set_numbers(UI *main_pointer, long double x);
 
 void zoom_up(gpointer ptr) {
   UI *main_pointer = ptr;
@@ -100,23 +101,23 @@ void draw_function(GtkDrawingArea *area, cairo_t *cr, int width, int height,
   cairo_set_source_rgb(cr, 255, 255, 255);
   cairo_set_line_width(cr, 2);
 
-  point prev = {.x = -6, .y = 36};
-  point prev_coord = translate_num_to_coord(prev, width, height, cell_size);
-
   for (double i = -30; i < 30; i += STEP) {
-    point p = {.x = i, .y = sin(i) - 2};
+    set_numbers(main_pointer, i);
+    button_clicked_enter(main_pointer);
+
+    point p = {.x = i, .y = main_pointer->result};
     point coord_p = translate_num_to_coord(p, width, height, cell_size);
-    point p_next = {.x = i + 2 * STEP, .y = sin(i + 2 * STEP) - 2};
+    set_numbers(main_pointer, i + 2 * STEP);
+    button_clicked_enter(main_pointer);
+    point p_next = {.x = i + 2 * STEP, .y = main_pointer->result};
 
     point coord_p_next =
         translate_num_to_coord(p_next, width, height, cell_size);
 
-    cairo_line_to(cr, coord_p.x, coord_p.y);
-    cairo_move_to(cr, coord_p_next.x, coord_p_next.y);
-    if (prev_coord.x == coord_p.x) {
-      printf("HAHAH\n");
+    if (fabs(coord_p.y - coord_p_next.y) < 100) {
+      cairo_line_to(cr, coord_p.x, coord_p.y);
     }
-    printf("%f %f\n", coord_p.x, coord_p.y);
+    cairo_move_to(cr, coord_p_next.x, coord_p_next.y);
   }
   cairo_stroke(cr);
 }
@@ -125,4 +126,12 @@ point translate_num_to_coord(point p, int width, int height, double cell_size) {
   point new_point = {.x = p.x * cell_size + width / 2.0,
                      .y = -p.y * cell_size + height / 2.0};
   return new_point;
+}
+
+void set_numbers(UI *main_pointer, long double x) {
+  for (int i = 0; i < main_pointer->elements_size; i++) {
+    if (main_pointer->elements[i].symbol == X) {
+      main_pointer->elements[i].number = x;
+    }
+  }
 }
