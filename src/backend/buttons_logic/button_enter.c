@@ -81,6 +81,7 @@ void button_clicked_enter(gpointer ptr) {
   char buff[255];
   sprintf(buff, "%.10Lf", numbers_stack[0]);
   morph_numeric_string(buff);
+  strcat(buff, " ");
   gtk_label_set_text(GTK_LABEL(main_pointer->label), (const char *)buff);
   main_pointer->result = numbers_stack[0];
 }
