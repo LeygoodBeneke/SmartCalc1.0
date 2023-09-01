@@ -1,8 +1,8 @@
 #include "../../s21_smart_calc.h"
-#define STEP 0.1
+#define STEP 0.005
 
 typedef struct {
-  double x, y;
+  long double x, y;
 } point;
 
 point translate_num_to_coord(point p, int width, int height, double cell_size);
@@ -114,7 +114,7 @@ void draw_function(GtkDrawingArea *area, cairo_t *cr, int width, int height,
     point coord_p_next =
         translate_num_to_coord(p_next, width, height, cell_size);
 
-    if (fabs(coord_p.y - coord_p_next.y) < 100) {
+    if (fabsl(coord_p.y - coord_p_next.y) < 1000) {
       cairo_line_to(cr, coord_p.x, coord_p.y);
     }
     cairo_move_to(cr, coord_p_next.x, coord_p_next.y);

@@ -138,15 +138,14 @@ void process_binary_op(long double *numbers_stack, gint *number_stack_len,
   if (symbol == MINUS)
     stack_nums_push(numbers_stack, number_stack_len, second - first);
   if (symbol == POWER)
-    stack_nums_push(numbers_stack, number_stack_len, pow(second, first));
+    stack_nums_push(numbers_stack, number_stack_len, powl(second, first));
   if (symbol == DIV)
     stack_nums_push(numbers_stack, number_stack_len, second / first);
   if (symbol == MOD)
     stack_nums_push(numbers_stack, number_stack_len,
                     (long)second % (long)first);
   if (symbol == MULT)
-    stack_nums_push(numbers_stack, number_stack_len,
-                    (long)first * (long)second);
+    stack_nums_push(numbers_stack, number_stack_len, first * second);
 }
 
 void process_unary_op(long double *numbers_stack, gint *number_stack_len,
