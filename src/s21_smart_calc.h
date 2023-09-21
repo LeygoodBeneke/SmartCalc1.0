@@ -80,8 +80,6 @@ void button_clicked_9(gpointer ptr);
 void button_clicked_plus(gpointer ptr);
 void button_clicked_dot(gpointer ptr);
 void button_clicked_c(gpointer ptr);
-void print_string_new(element *elements, gint count, GtkLabel *label);
-
 void button_clicked_minus(gpointer ptr);
 void button_clicked_mult(gpointer ptr);
 void button_clicked_div(gpointer ptr);
@@ -102,6 +100,7 @@ void button_clicked_graph(gpointer ptr);
 void button_clicked_x(gpointer ptr);
 
 
+void print_string_new(element *elements, gint count, GtkLabel *label);
 void signal_connection(GtkWidget **buttons, gpointer ptr);
 void add_element(element *elements, gint *size, element addition);
 
@@ -113,3 +112,4 @@ void draw_function (GtkDrawingArea *area,
                int             width,
                int             height,
                gpointer        data);
+void polish_notation(gpointer ptr);

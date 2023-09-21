@@ -19,8 +19,9 @@
 }
 
 .text-button:hover {
-  background-color: #1C9ACE;
+    background-color: #1C9ACE;
 }
+
 .text-button:active {
   background-color: #67c3eb;
   transition: 0.1s;

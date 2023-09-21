@@ -36,6 +36,7 @@ static void grid_initialize(GtkWidget *grid, GtkWidget **buttons,
   for (int i = 0; i < SYMBOLS_SIZE - 3; i++) {
     gtk_grid_attach(GTK_GRID(grid), buttons[i], i % 6, i / 6 + 5, 1, 1);
   }
+    gtk_grid_attach(GTK_GRID(grid), buttons[1], 0, 2, 2, 2);
   gtk_grid_attach(GTK_GRID(grid), buttons[SYMBOLS_SIZE - 3], 6, 5, 1, 1);
   gtk_grid_attach(GTK_GRID(grid), buttons[SYMBOLS_SIZE - 2], 6, 6, 1, 2);
   gtk_grid_attach(GTK_GRID(grid), buttons[SYMBOLS_SIZE - 1], 6, 8, 1, 2);
@@ -52,6 +53,7 @@ static void window_initialize(GtkWidget *win, GApplication *app,
   gtk_window_set_default_size(GTK_WINDOW(win), 1000, 600);
   gtk_window_set_child(GTK_WINDOW(win), grid);
   gtk_window_present(GTK_WINDOW(win));
+  gtk_window_set_resizable (GTK_WINDOW(win), FALSE);
 }
 
 static void app_activate(GApplication *app, gpointer ptr) {

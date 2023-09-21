@@ -1,5 +1,5 @@
 #include "../../s21_smart_calc.h"
-#define STEP 0.005
+#define STEP 10.0 / cell_size
 
 typedef struct {
   long double x, y;
@@ -22,7 +22,6 @@ void zoom_down(gpointer ptr) {
                                  draw_function, ptr, NULL);
 }
 
-void button_press_event() {}
 
 void button_clicked_graph(gpointer ptr) {
   UI *main_pointer = ptr;
@@ -101,9 +100,9 @@ void draw_function(GtkDrawingArea *area, cairo_t *cr, int width, int height,
   cairo_set_source_rgb(cr, 255, 255, 255);
   cairo_set_line_width(cr, 2);
 
-  for (double i = -30; i < 30; i += STEP) {
+  for (double i = -cols_counter; i < cols_counter; i += STEP) {
     set_numbers(main_pointer, i);
-    button_clicked_enter(main_pointer);
+    polish_notation(main_pointer);
 
     point p = {.x = i, .y = main_pointer->result};
     point coord_p = translate_num_to_coord(p, width, height, cell_size);
@@ -120,6 +119,7 @@ void draw_function(GtkDrawingArea *area, cairo_t *cr, int width, int height,
     cairo_move_to(cr, coord_p_next.x, coord_p_next.y);
   }
   cairo_stroke(cr);
+  gtk_label_set_text(GTK_LABEL(main_pointer->label), " ");
 }
 
 point translate_num_to_coord(point p, int width, int height, double cell_size) {

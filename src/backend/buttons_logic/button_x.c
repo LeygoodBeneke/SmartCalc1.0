@@ -13,9 +13,6 @@ void button_clicked_x(gpointer ptr) {
   }
 
   last = get_last_element(elements, *size_of_elements);
-  //  if (last->str == NULL) {
-  //    last->str = calloc(2, sizeof(char));
-  //  }
   strcpy(last->str, "x");
   last->number = 0;
 

@@ -59,15 +59,11 @@ void button_clicked_digit(gpointer ptr, gint digit) {
 }
 
 void morph_numeric_string(char *s) {
-  char *p;
-  p = strchr(s, '.');
-  if (p != NULL) {
-    while (s[strlen(s) - 1] == '0') {
-      s[strlen(s) - 1] = '\0';
-    }
-
-    if (s[strlen(s) - 1] == '.') {
-      s[strlen(s) - 1] = '\0';
-    }
+  while (s[strlen(s) - 1] == '0') {
+    s[strlen(s) - 1] = '\0';
+  }
+  
+  if (s[strlen(s) - 1] == '.') {
+    s[strlen(s) - 1] = '\0';
   }
 }

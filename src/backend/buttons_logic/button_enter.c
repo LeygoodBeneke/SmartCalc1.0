@@ -11,79 +11,14 @@ void process_unary_op(long double *numbers_stack, gint *number_stack_len,
 element *stack_ops_get_last(element *stack, gint count);
 
 void button_clicked_enter(gpointer ptr) {
+  polish_notation(ptr);
   UI *main_pointer = ptr;
-  element *elements = main_pointer->elements;
-
-  long double numbers_stack[255] = {};
-  gint number_stack_len = 0;
-
-  element operations_stack[255] = {};
-  gint operations_stack_len = 0;
-
-  for (gint i = 0; i < main_pointer->elements_size; i++) {
-    //    printf("----------------------\n");
-    //    printf("ELEMENT\n");
-    //    printf("SYMBOL: %d\n", elements[i].symbol);
-    //    printf("IS UNARY: %d\n", elements[i].is_unary);
-    //    printf("PRIORITY: %d\n", elements[i].priority);
-    //    printf("NUMBER?: %d\n", elements[i].is_number);
-
-    if (elements[i].is_number == 1) {
-      stack_nums_push(numbers_stack, &number_stack_len, elements[i].number);
-    } else {
-      gboolean is_push = !operations_stack_len;
-      if (!is_push)
-        is_push = elements[i].priority >
-                  stack_ops_get_last(operations_stack, operations_stack_len)
-                      ->priority;
-      if (!is_push)
-        is_push =
-            operations_stack[operations_stack_len - 1].symbol == OPEN_SCOPE;
-      if (is_push) {
-        if (elements[i].symbol == CLOSE_SCOPE) {
-          element last = stack_ops_pop(operations_stack, &operations_stack_len);
-          while (last.symbol != OPEN_SCOPE) {
-            if (last.is_unary == 0) {
-              process_binary_op(numbers_stack, &number_stack_len, last.symbol);
-            } else {
-              process_unary_op(numbers_stack, &number_stack_len, last.symbol);
-            }
-            last = stack_ops_pop(operations_stack, &operations_stack_len);
-          }
-        } else {
-          stack_ops_push(operations_stack, &operations_stack_len, elements[i]);
-        }
-      } else {
-        element *last =
-            stack_ops_get_last(operations_stack, operations_stack_len);
-        while (last->priority >= elements[i].priority && operations_stack_len > 0) {
-          if (last->is_unary == 0) {
-            process_binary_op(numbers_stack, &number_stack_len, last->symbol);
-          } else {
-            process_unary_op(numbers_stack, &number_stack_len, last->symbol);
-          }
-          stack_ops_pop(operations_stack, &operations_stack_len);
-          last = stack_ops_get_last(operations_stack, operations_stack_len);
-        }
-        stack_ops_push(operations_stack, &operations_stack_len, elements[i]);
-      }
-    }
-  }
-  while (operations_stack_len > 0) {
-    element el = stack_ops_pop(operations_stack, &operations_stack_len);
-    if (el.is_unary == 0) {
-      process_binary_op(numbers_stack, &number_stack_len, el.symbol);
-    } else {
-      process_unary_op(numbers_stack, &number_stack_len, el.symbol);
-    }
-  }
-
   char buff[255];
-  sprintf(buff, "%.10Lf", numbers_stack[0]);
+  sprintf(buff, "%.10f", main_pointer->result);
   morph_numeric_string(buff);
   strcat(buff, " ");
-  gtk_label_set_text(GTK_LABEL(main_pointer->label), (const char *)buff);
-  main_pointer->result = numbers_stack[0];
+  if (main_pointer->label)
+    gtk_label_set_text(GTK_LABEL(main_pointer->label), (const char *)buff);
 }
 
 void stack_nums_push(long double *stack, gint *count, long double value) {
@@ -158,8 +93,7 @@ void process_unary_op(long double *numbers_stack, gint *number_stack_len,
     value = stack_nums_pop(numbers_stack, number_stack_len);
 
   if (symbol == SIN)
-    stack_nums_push(numbers_stack, number_stack_len,
-                    sinl(value * G_PI / 180.0));
+    stack_nums_push(numbers_stack, number_stack_len, sinl(value));
   if (symbol == ASIN)
     stack_nums_push(numbers_stack, number_stack_len, asinl(value));
   if (symbol == COS)
@@ -176,4 +110,74 @@ void process_unary_op(long double *numbers_stack, gint *number_stack_len,
     stack_nums_push(numbers_stack, number_stack_len, log10l(value));
   if (symbol == SQRT)
     stack_nums_push(numbers_stack, number_stack_len, sqrtl(value));
+}
+
+void polish_notation(gpointer ptr) {
+  UI *main_pointer = ptr;
+  element *elements = main_pointer->elements;
+
+  long double numbers_stack[255] = {};
+  gint number_stack_len = 0;
+
+  element operations_stack[255] = {};
+  gint operations_stack_len = 0;
+
+  for (gint i = 0; i < main_pointer->elements_size; i++) {
+    //    printf("----------------------\n");
+    //    printf("ELEMENT\n");
+    //    printf("SYMBOL: %d\n", elements[i].symbol);
+    //    printf("IS UNARY: %d\n", elements[i].is_unary);
+    //    printf("PRIORITY: %d\n", elements[i].priority);
+    //    printf("NUMBER?: %d\n", elements[i].is_number);
+
+    if (elements[i].is_number == 1) {
+      stack_nums_push(numbers_stack, &number_stack_len, elements[i].number);
+    } else {
+      gboolean is_push = !operations_stack_len;
+      if (!is_push)
+        is_push = elements[i].priority >
+                  stack_ops_get_last(operations_stack, operations_stack_len)
+                      ->priority;
+      if (!is_push)
+        is_push =
+            operations_stack[operations_stack_len - 1].symbol == OPEN_SCOPE;
+      if (is_push) {
+        if (elements[i].symbol == CLOSE_SCOPE) {
+          element last = stack_ops_pop(operations_stack, &operations_stack_len);
+          while (last.symbol != OPEN_SCOPE) {
+            if (last.is_unary == 0) {
+              process_binary_op(numbers_stack, &number_stack_len, last.symbol);
+            } else {
+              process_unary_op(numbers_stack, &number_stack_len, last.symbol);
+            }
+            last = stack_ops_pop(operations_stack, &operations_stack_len);
+          }
+        } else {
+          stack_ops_push(operations_stack, &operations_stack_len, elements[i]);
+        }
+      } else {
+        element *last =
+            stack_ops_get_last(operations_stack, operations_stack_len);
+        while (last->priority >= elements[i].priority && operations_stack_len > 0) {
+          if (last->is_unary == 0) {
+            process_binary_op(numbers_stack, &number_stack_len, last->symbol);
+          } else {
+            process_unary_op(numbers_stack, &number_stack_len, last->symbol);
+          }
+          stack_ops_pop(operations_stack, &operations_stack_len);
+          last = stack_ops_get_last(operations_stack, operations_stack_len);
+        }
+        stack_ops_push(operations_stack, &operations_stack_len, elements[i]);
+      }
+    }
+  }
+  while (operations_stack_len > 0) {
+    element el = stack_ops_pop(operations_stack, &operations_stack_len);
+    if (el.is_unary == 0) {
+      process_binary_op(numbers_stack, &number_stack_len, el.symbol);
+    } else {
+      process_unary_op(numbers_stack, &number_stack_len, el.symbol);
+    }
+  }
+  main_pointer->result = numbers_stack[0];
 }
