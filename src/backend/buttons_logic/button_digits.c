@@ -36,9 +36,6 @@ void button_clicked_digit(gpointer ptr, gint digit) {
   }
 
   last = get_last_element(elements, *size_of_elements);
-  //  if (last->str == NULL) {
-  //    last->str = calloc(30, sizeof(char));
-  //  }
 
   if (!last->is_dot_used)
     last->number *= 10.0;
@@ -62,7 +59,7 @@ void morph_numeric_string(char *s) {
   while (s[strlen(s) - 1] == '0') {
     s[strlen(s) - 1] = '\0';
   }
-  
+
   if (s[strlen(s) - 1] == '.') {
     s[strlen(s) - 1] = '\0';
   }

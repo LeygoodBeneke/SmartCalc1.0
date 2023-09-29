@@ -24,3 +24,30 @@ void button_clicked_c(gpointer ptr) {
   print_string_new(main_pointer->elements, main_pointer->elements_size,
                    GTK_LABEL(main_pointer->label));
 }
+
+void button_clicked_ac(gpointer ptr) {
+  UI *main_pointer = ptr;
+
+  element *last =
+      get_last_element(main_pointer->elements, main_pointer->elements_size);
+
+  while (last != NULL) {
+    if (last->symbol == OPEN_SCOPE) main_pointer->open_scopes_counter--;
+    if (last->symbol == CLOSE_SCOPE) main_pointer->open_scopes_counter++;
+
+    remove_last_element(main_pointer->elements, &main_pointer->elements_size);
+    last =
+        get_last_element(main_pointer->elements, main_pointer->elements_size);
+
+    if (last) {
+      if (last->is_unary) {
+        remove_last_element(main_pointer->elements,
+                            &main_pointer->elements_size);
+      }
+    }
+    last =
+        get_last_element(main_pointer->elements, main_pointer->elements_size);
+  }
+  print_string_new(main_pointer->elements, main_pointer->elements_size,
+                   GTK_LABEL(main_pointer->label));
+}

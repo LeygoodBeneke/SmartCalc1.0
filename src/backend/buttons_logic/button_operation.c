@@ -63,6 +63,10 @@ void button_clicked_sqrt(gpointer ptr) {
   button_clicked_unary_op(ptr, "sqrt", SQRT, PRIORITY_SQRT);
 }
 
+void button_clicked_unary_minus(gpointer ptr) {
+  button_clicked_unary_op(ptr, "-", UNARY_MINUS, PRIORITY_UNARY_MINUS);
+}
+
 void button_clicked_bin_op(gpointer ptr, char *op, int symbol, int priority) {
   UI *main_pointer = ptr;
   element *last =

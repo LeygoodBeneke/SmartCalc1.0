@@ -22,7 +22,6 @@ void zoom_down(gpointer ptr) {
                                  draw_function, ptr, NULL);
 }
 
-
 void button_clicked_graph(gpointer ptr) {
   UI *main_pointer = ptr;
   main_pointer->cell_size = 60.0;

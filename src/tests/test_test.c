@@ -109,7 +109,7 @@ END_TEST
 START_TEST(test_test_7) {
   UI main = {};
   main.elements = calloc(255, sizeof(element));
- 
+
   button_clicked_cos(&main);
   button_clicked_0(&main);
   button_clicked_scope(&main);
@@ -127,7 +127,7 @@ END_TEST
 START_TEST(test_test_8) {
   UI main = {};
   main.elements = calloc(255, sizeof(element));
- 
+
   button_clicked_cos(&main);
   button_clicked_cos(&main);
   button_clicked_cos(&main);
@@ -162,7 +162,7 @@ END_TEST
 START_TEST(test_test_9) {
   UI main = {};
   main.elements = calloc(255, sizeof(element));
- 
+
   button_clicked_log(&main);
   button_clicked_9(&main);
   button_clicked_scope(&main);
@@ -202,7 +202,7 @@ END_TEST
 START_TEST(test_test_10) {
   UI main = {};
   main.elements = calloc(255, sizeof(element));
- 
+
   button_clicked_9(&main);
   button_clicked_mod(&main);
   button_clicked_2(&main);
@@ -217,7 +217,7 @@ END_TEST
 START_TEST(test_test_11) {
   UI main = {};
   main.elements = calloc(255, sizeof(element));
- 
+
   button_clicked_x(&main);
 
   button_clicked_enter(&main);
@@ -230,7 +230,7 @@ END_TEST
 START_TEST(test_test_12) {
   UI main = {};
   main.elements = calloc(255, sizeof(element));
- 
+
   button_clicked_2(&main);
   button_clicked_x(&main);
 
@@ -244,8 +244,31 @@ END_TEST
 START_TEST(test_test_13) {
   UI main = {};
   main.elements = calloc(255, sizeof(element));
- 
-  button_clicked_c(&main);
+
+  button_clicked_9(&main);
+  button_clicked_mod(&main);
+  button_clicked_2(&main);
+  button_clicked_mult(&main);
+  button_clicked_2(&main);
+  button_clicked_mult(&main);
+  button_clicked_2(&main);
+  button_clicked_mult(&main);
+  button_clicked_2(&main);
+  button_clicked_ac(&main);
+
+  button_clicked_enter(&main);
+
+  ck_assert_double_eq_tol(main.result, 0, 1e-5);
+  ck_assert_int_eq(main.elements_size, 0);
+  free(main.elements);
+}
+END_TEST
+
+START_TEST(test_test_14) {
+  UI main = {};
+  main.elements = calloc(255, sizeof(element));
+
+  button_clicked_ac(&main);
   button_clicked_x(&main);
 
   button_clicked_enter(&main);
@@ -272,8 +295,8 @@ Suite *test_test() {
   tcase_add_test(tcase, test_test_11);
   tcase_add_test(tcase, test_test_12);
   tcase_add_test(tcase, test_test_13);
+  tcase_add_test(tcase, test_test_14);
 
   suite_add_tcase(suite, tcase);
   return suite;
 }
-

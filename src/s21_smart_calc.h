@@ -19,9 +19,10 @@
 #define LOG          14
 #define LN           15
 #define SQRT         16
-#define OPEN_SCOPE   17
-#define CLOSE_SCOPE  18
-#define X            19
+#define UNARY_MINUS  17
+#define OPEN_SCOPE   18
+#define CLOSE_SCOPE  19
+#define X            20
 
 #define PRIORITY_PLUS         1
 #define PRIORITY_MINUS        1
@@ -39,6 +40,7 @@
 #define PRIORITY_LN           3
 #define PRIORITY_POWER        3
 #define PRIORITY_SQRT         3
+#define PRIORITY_UNARY_MINUS  3
 #define PRIORITY_OPEN_SCOPE   4
 #define PRIORITY_CLOSE_SCOPE  5
 
@@ -98,6 +100,8 @@ void button_clicked_pow(gpointer ptr);
 void button_clicked_enter(gpointer ptr);
 void button_clicked_graph(gpointer ptr);
 void button_clicked_x(gpointer ptr);
+void button_clicked_unary_minus(gpointer ptr);
+void button_clicked_ac(gpointer ptr);
 
 
 void print_string_new(element *elements, gint count, GtkLabel *label);

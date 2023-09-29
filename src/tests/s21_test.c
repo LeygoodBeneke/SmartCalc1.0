@@ -14,8 +14,7 @@ void print_info(Suite *suite) {
 }
 
 int main() {
-  Suite *suites[] = {test_test(),
-                     NULL};
+  Suite *suites[] = {test_test(), NULL};
 
   for (int i = 0; suites[i] != NULL; i++) {
     print_info(suites[i]);
@@ -23,4 +22,3 @@ int main() {
 
   return 0;
 }
-

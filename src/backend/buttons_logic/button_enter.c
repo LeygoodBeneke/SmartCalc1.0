@@ -81,8 +81,7 @@ void process_binary_op(long double *numbers_stack, gint *number_stack_len,
     stack_nums_push(numbers_stack, number_stack_len,
                     (long)second % (long)first);
   if (symbol == MULT)
-    stack_nums_push(numbers_stack, number_stack_len,
-                    first * second);
+    stack_nums_push(numbers_stack, number_stack_len, first * second);
 }
 
 void process_unary_op(long double *numbers_stack, gint *number_stack_len,
@@ -110,6 +109,8 @@ void process_unary_op(long double *numbers_stack, gint *number_stack_len,
     stack_nums_push(numbers_stack, number_stack_len, log10l(value));
   if (symbol == SQRT)
     stack_nums_push(numbers_stack, number_stack_len, sqrtl(value));
+  if (symbol == UNARY_MINUS)
+    stack_nums_push(numbers_stack, number_stack_len, -value);
 }
 
 void polish_notation(gpointer ptr) {
@@ -158,7 +159,8 @@ void polish_notation(gpointer ptr) {
       } else {
         element *last =
             stack_ops_get_last(operations_stack, operations_stack_len);
-        while (last->priority >= elements[i].priority && operations_stack_len > 0) {
+        while (last->priority >= elements[i].priority &&
+               operations_stack_len > 0) {
           if (last->is_unary == 0) {
             process_binary_op(numbers_stack, &number_stack_len, last->symbol);
           } else {
