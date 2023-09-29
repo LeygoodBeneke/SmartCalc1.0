@@ -30,4 +30,8 @@ gcov_report: add_coverage test
 	gcov -b -l -p -c s21_*.gcno
 	gcovr -o gcov_report.html --html --html-details -g -k -r . --html --html-details --filter backend/buttons_logic --filter backend/utility --exclude-throw-branches --fail-under-branch 0
 	$(OPEN_CM) gcov_report.html
+dvi:
+	open ./readme.html
 
+dist: clean
+	zip -r SmartCalc_v1.0.zip *
