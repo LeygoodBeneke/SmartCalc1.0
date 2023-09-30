@@ -6,7 +6,6 @@ void print_string_new(element *elements, gint count, GtkLabel *label) {
   for (int i = 0; i < count; i++) {
     strcat(input, elements[i].str);
     strcat(input, " ");
-    printf("%s ", elements[i].str);
   }
   unsigned long idx = (strlen(input) >= 33) ? strlen(input) - 33 : 0;
 
@@ -19,7 +18,4 @@ void print_string_new(element *elements, gint count, GtkLabel *label) {
   }
   free(input);
   free(output);
-
-  printf("\n");
-  printf("COUNT: %d\n", count);
 }

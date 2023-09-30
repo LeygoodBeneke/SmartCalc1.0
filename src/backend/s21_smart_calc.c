@@ -20,7 +20,7 @@ static void ui_initialize(GtkWidget **buttons, GtkWidget **label) {
     buttons[i] = gtk_button_new_with_label(symbols[i]);
     gtk_widget_add_css_class(buttons[i], "circular");
   }
-  *label = gtk_label_new("0");
+  *label = gtk_label_new("0 ");
   gtk_widget_add_css_class(*label, "label");
   gtk_label_set_xalign(GTK_LABEL(*label), 1.0);
   gtk_label_set_yalign(GTK_LABEL(*label), 1.0);

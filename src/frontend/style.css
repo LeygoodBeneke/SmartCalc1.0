@@ -6,7 +6,7 @@
 .circular {
   background-color: #1C1C1C;
   background-image: none;
-  font-size:40px;
+  font-size: 40px;
   color: white;
 }
 
@@ -30,11 +30,11 @@
 .label {
   font-size: 80px;
   color: #191919;
+  padding: 20px;
   background-color: #F9BF52;
 }
 
 .buttons_box {
-    padding: 200px;
 }
 
 .grid {

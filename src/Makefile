@@ -35,3 +35,9 @@ dvi:
 
 dist: clean
 	zip -r SmartCalc_v1.0.zip *
+
+clang_format_edit:
+	find . -name *.c | xargs clang-format -i
+
+clang_format_check:
+	find . -name *.c | xargs clang-format -n
