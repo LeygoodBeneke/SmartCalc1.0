@@ -1,4 +1,4 @@
-#include "../../s21_smart_calc.h"
+#include "../../proj_smart_calc.h"
 
 void button_clicked_unary_op(gpointer ptr, char *op, int symbol, int priority);
 void button_clicked_bin_op(gpointer ptr, char *op, int symbol, int priority);

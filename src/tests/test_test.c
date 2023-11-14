@@ -1,4 +1,4 @@
-#include "s21_test.h"
+#include "proj_test.h"
 
 START_TEST(test_test_1) {
   UI main = {};

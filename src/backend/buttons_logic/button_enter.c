@@ -1,4 +1,4 @@
-#include "../../s21_smart_calc.h"
+#include "../../proj_smart_calc.h"
 
 void stack_nums_push(long double *stack, gint *count, long double value);
 long double stack_nums_pop(long double *stack, gint *count);

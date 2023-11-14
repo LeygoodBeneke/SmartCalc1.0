@@ -27,10 +27,10 @@
       "-msse2",
       "-pthread",
       "-c",
-      "backend/s21_smart_calc.c"
+      "backend/proj_smart_calc.c"
     ],
     "directory": "/home/vpc/Desktop/21_school/C7_SmartCalc_v1.0-1/src",
-    "file": "/home/vpc/Desktop/21_school/C7_SmartCalc_v1.0-1/src/backend/s21_smart_calc.c"
+    "file": "/home/vpc/Desktop/21_school/C7_SmartCalc_v1.0-1/src/backend/proj_smart_calc.c"
   },
   {
     "arguments": [

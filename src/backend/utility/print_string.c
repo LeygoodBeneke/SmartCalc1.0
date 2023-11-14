@@ -1,4 +1,4 @@
-#include "../../s21_smart_calc.h"
+#include "../../proj_smart_calc.h"
 
 void print_string_new(element *elements, gint count, GtkLabel *label) {
   char *input = calloc(255, sizeof(char));

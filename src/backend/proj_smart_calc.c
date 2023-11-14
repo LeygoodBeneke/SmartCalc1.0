@@ -1,4 +1,4 @@
-#include "../s21_smart_calc.h"
+#include "../proj_smart_calc.h"
 
 const char *symbols[SYMBOLS_SIZE] = {
     "SIN", "ASIN", "C", "()", "+/-", "/", "COS", "ACOS",  "7", "8", "9", "*",

@@ -12,22 +12,22 @@ ifeq ($(UNAME),Darwin)
 	OPEN_CM=open
 endif
 
-all: clean s21_smart_calc.a
+all: clean proj_smart_calc.a
 deafult: all
-s21_smart_calc.o: backend/*/*.c
+proj_smart_calc.o: backend/*/*.c
 	gcc $(FLAGS) -c $^
-s21_smart_calc.a: s21_smart_calc.o
-	gcc $(FLAGS) -o SmartCalc backend/s21_smart_calc.c *.o
+proj_smart_calc.a: proj_smart_calc.o
+	gcc $(FLAGS) -o SmartCalc backend/proj_smart_calc.c *.o
 clean:
-	rm -rf *.a *.o *.out *.html *.gcno *.gcov *.gcda s21_test report SmartCalc
-test: clean s21_smart_calc.o
-	gcc $(FLAGS) $(COVERAGE) -o s21_test tests/*.c backend/*/*.c $(LDFLAGS)
-	./s21_test
+	rm -rf *.a *.o *.out *.html *.gcno *.gcov *.gcda proj_test report SmartCalc
+test: clean proj_smart_calc.o
+	gcc $(FLAGS) $(COVERAGE) -o proj_test tests/*.c backend/*/*.c $(LDFLAGS)
+	./proj_test
 add_coverage:
 	$(eval FLAGS += --coverage)
 gcov_report: add_coverage test
-	./s21_test
-	gcov -b -l -p -c s21_*.gcno
+	./proj_test
+	gcov -b -l -p -c proj_*.gcno
 	gcovr -o gcov_report.html --html --html-details -g -k -r . --html --html-details --filter backend/buttons_logic --filter backend/utility --exclude-throw-branches --fail-under-branch 0
 	$(OPEN_CM) gcov_report.html
 dvi:

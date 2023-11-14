@@ -1,4 +1,4 @@
-#include "../../s21_smart_calc.h"
+#include "../../proj_smart_calc.h"
 
 void signal_connection(GtkWidget **buttons, gpointer ptr) {
   g_signal_connect_swapped(G_OBJECT(buttons[8]), "clicked",

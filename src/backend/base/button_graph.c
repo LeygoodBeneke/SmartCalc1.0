@@ -1,4 +1,4 @@
-#include "../../s21_smart_calc.h"
+#include "../../proj_smart_calc.h"
 #define STEP 10.0 / cell_size
 
 typedef struct {

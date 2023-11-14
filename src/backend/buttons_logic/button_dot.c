@@ -1,4 +1,4 @@
-#include "../../s21_smart_calc.h"
+#include "../../proj_smart_calc.h"
 
 void button_clicked_dot(gpointer ptr) {
   UI *main_pointer = ptr;

@@ -1,4 +1,4 @@
-#include "../../s21_smart_calc.h"
+#include "../../proj_smart_calc.h"
 
 void add_element(element *elements, gint *size, element addition) {
   strcpy(elements[*size].str, addition.str);
